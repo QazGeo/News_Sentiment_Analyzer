@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Media Pulse</title>
+</head>
+<body class="bg-gradient-to-br from-[#0a0e27] via-[#1a1f3a] to-[#0f172a] min-h-screen flex flex-col">
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo - Left Side -->
+                <div class="flex items-center">
+                    <a href="#" class="text-[#f0f9ff] text-xl font-bold transition-transform duration-300 hover:scale-105">
+                        Media Pulse
+                    </a>
+                </div>
+                
+                <!-- Navigation Links - Right Side -->
+                <div class="flex items-center space-x-6 mr-4">
+                    <a href="#" class="text-[#a5b4fc] hover:text-[#f0f9ff] transition-colors duration-300 relative group pb-1">
+                        Pricing
+                        <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#7c3aed] to-[#ec4899] group-hover:w-full transition-all duration-300 origin-center"></span>
+                    </a>
+                    <a href="#" class="text-[#a5b4fc] hover:text-[#f0f9ff] transition-colors duration-300 relative group pb-1">
+                        Documentation
+                        <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#7c3aed] to-[#ec4899] group-hover:w-full transition-all duration-300 origin-center"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+          
+</body>
+</html>
