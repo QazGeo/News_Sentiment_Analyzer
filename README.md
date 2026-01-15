@@ -170,3 +170,16 @@ Although challenging, this shift helped improve flexibility in UI design and str
 * Improve dashboard interactivity
 * Add scheduled scraping
 * Optional database integration for faster querying
+
+---
+
+## License
+
+Copyright © 2026 George Rading. All rights reserved.
+
+This repository is publicly accessible for viewing purposes only.
+No permission is granted to copy, modify, distribute, or use this code,
+in whole or in part, for any purpose without explicit written consent
+from the author.
+
+---
