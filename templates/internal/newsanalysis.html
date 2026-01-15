@@ -1,0 +1,281 @@
+{% extends 'layout.html' %}
+{% block content %}
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center p-4">
+    <!-- Card Container -->
+    <div class="bg-gradient-to-br from-[#1e1b4b]/80 to-[#312e81]/60 backdrop-blur-sm rounded-xl shadow-2xl p-6 md:p-8 max-w-7xl w-full mx-auto border border-[#4c1d95]/30 shadow-purple-900/20">
+        <div class="flex flex-col items-center text-center gap-y-5">
+            <!-- Animated Title -->
+            <h1 class="text-transparent bg-clip-text bg-gradient-to-r from-[#f0f9ff] to-[#a5b4fc] tracking-in-contract text-3xl md:text-4xl font-bold">
+                Sentiment Analysis Results For {{source}} {{segment}}
+            </h1>
+            
+            <!-- Divider Line -->
+            <div class="w-full max-w-xs">
+                <hr class="border-t border-[#4c1d95]/30">
+            </div>
+            
+            <!-- Main Content Grid -->
+            <div class="w-full mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Summary Section - Left Side -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-6 space-y-4">
+                        <!-- Summary Cards -->
+                        <div class="grid grid-cols-2 lg:grid-cols-1 gap-4">
+                            <!-- Positive Count -->
+                            <div class="bg-gradient-to-br from-[#10b981]/20 to-[#34d399]/20 rounded-lg p-4 border border-[#10b981]/30">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-[#a5b4fc] text-sm">Positive</p>
+                                        <p class="text-2xl font-bold text-[#10b981]">{{ positive_count }}</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-gradient-to-br from-[#10b981] to-[#34d399] rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-smile text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Neutral Count -->
+                            <div class="bg-gradient-to-br from-[#f59e0b]/20 to-[#fbbf24]/20 rounded-lg p-4 border border-[#f59e0b]/30">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-[#a5b4fc] text-sm">Neutral</p>
+                                        <p class="text-2xl font-bold text-[#f59e0b]">{{ neutral_count }}</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-gradient-to-br from-[#f59e0b] to-[#fbbf24] rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-meh text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Negative Count -->
+                            <div class="bg-gradient-to-br from-[#ef4444]/20 to-[#f87171]/20 rounded-lg p-4 border border-[#ef4444]/30">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-[#a5b4fc] text-sm">Negative</p>
+                                        <p class="text-2xl font-bold text-[#ef4444]">{{ negative_count }}</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-gradient-to-br from-[#ef4444] to-[#f87171] rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-frown text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Total Articles -->
+                            <div class="bg-gradient-to-br from-[#7c3aed]/20 to-[#a855f7]/20 rounded-lg p-4 border border-[#7c3aed]/30">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-[#a5b4fc] text-sm">Total</p>
+                                        <p class="text-2xl font-bold text-[#7c3aed]">{{ results|length }}</p>
+                                    </div>
+                                    <div class="w-12 h-12 bg-gradient-to-br from-[#7c3aed] to-[#a855f7] rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-newspaper text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sentiment Distribution Chart -->
+                        <div class="bg-[#1e293b]/40 rounded-lg p-4 border border-[#4c1d95]/20">
+                            <p class="text-[#c7d2fe] text-xs font-medium mb-3">SENTIMENT DISTRIBUTION</p>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-[#10b981] text-sm">Positive</span>
+                                        <span class="text-[#10b981] text-sm">{{ "%.1f"|format((positive_count / results|length) * 100) }}%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-[#10b981] to-[#34d399]" style="width: {{ (positive_count / results|length) * 100 }}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-[#f59e0b] text-sm">Neutral</span>
+                                        <span class="text-[#f59e0b] text-sm">{{ "%.1f"|format((neutral_count / results|length) * 100) }}%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-[#f59e0b] to-[#fbbf24]" style="width: {{ (neutral_count / results|length) * 100 }}%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-[#ef4444] text-sm">Negative</span>
+                                        <span class="text-[#ef4444] text-sm">{{ "%.1f"|format((negative_count / results|length) * 100) }}%</span>
+                                    </div>
+                                    <div class="w-full h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-[#ef4444] to-[#f87171]" style="width: {{ (negative_count / results|length) * 100 }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col gap-3">
+                            <!-- New Analysis Button -->
+                            <button class="bg-gradient-to-r from-[#7c3aed] to-[#a855f7] hover:from-[#6d28d9] hover:to-[#9333ea] text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 shadow-lg shadow-purple-700/30" onclick="location.href='/news'">
+                                New Analysis
+                            </button>
+                            
+                            <!-- Export Results Button -->
+                            <button class="bg-gradient-to-r from-[#1e293b] to-[#334155] hover:from-[#334155] hover:to-[#475569] text-[#f0f9ff] font-semibold py-3 px-6 rounded-lg transition duration-300 border border-[#4c1d95]/50 hover:border-[#6d28d9]/70">
+                                Export Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Section - Right Side -->
+                <div class="lg:col-span-2">
+                    <div class="bg-[#1e293b]/30 rounded-lg p-4 border border-[#4c1d95]/20 h-[600px] overflow-y-auto custom-scrollbar">
+                        <div class="space-y-4">
+                            {% for result in results %}
+                            <div class="bg-[#1e293b]/40 rounded-lg p-5 border border-[#4c1d95]/20 hover:border-[#4c1d95]/40 transition-all duration-300">
+                                <!-- Header with Sentiment Badge -->
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        {% if result.sentiment == 'Positive' %}
+                                        <span class="px-3 py-1 bg-gradient-to-r from-[#10b981]/20 to-[#34d399]/20 text-[#10b981] rounded-full text-sm font-medium border border-[#10b981]/30">
+                                            <i class="fas fa-smile mr-1"></i> Positive
+                                        </span>
+                                        {% elif result.sentiment == 'Neutral' %}
+                                        <span class="px-3 py-1 bg-gradient-to-r from-[#f59e0b]/20 to-[#fbbf24]/20 text-[#f59e0b] rounded-full text-sm font-medium border border-[#f59e0b]/30">
+                                            <i class="fas fa-meh mr-1"></i> Neutral
+                                        </span>
+                                        {% else %}
+                                        <span class="px-3 py-1 bg-gradient-to-r from-[#ef4444]/20 to-[#f87171]/20 text-[#ef4444] rounded-full text-sm font-medium border border-[#ef4444]/30">
+                                            <i class="fas fa-frown mr-1"></i> Negative
+                                        </span>
+                                        {% endif %}
+                                        <span class="text-[#a5b4fc] text-sm">Compound: {{ "%.3f"|format(result.scores.compound) }}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Original Text -->
+                                <div class="mb-4">
+                                    <p class="text-[#c7d2fe] text-xs font-medium mb-1">ORIGINAL TEXT</p>
+                                    <p class="text-[#e0e7ff] leading-relaxed">{{ result.text }}</p>
+                                </div>
+                                
+                                <!-- Detailed Scores -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Individual Scores -->
+                                    <div>
+                                        <p class="text-[#c7d2fe] text-xs font-medium mb-2">INDIVIDUAL SCORES</p>
+                                        <div class="space-y-2">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-[#a5b4fc] text-sm">Negative:</span>
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="w-24 h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-gradient-to-r from-[#ef4444] to-[#f87171]" 
+                                                             style="width: {{ (result.scores.neg * 100)|round(1) }}%"></div>
+                                                    </div>
+                                                    <span class="text-[#ef4444] text-sm font-medium w-12 text-right">{{ "%.3f"|format(result.scores.neg) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-[#a5b4fc] text-sm">Neutral:</span>
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="w-24 h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-gradient-to-r from-[#f59e0b] to-[#fbbf24]" 
+                                                             style="width: {{ (result.scores.neu * 100)|round(1) }}%"></div>
+                                                    </div>
+                                                    <span class="text-[#f59e0b] text-sm font-medium w-12 text-right">{{ "%.3f"|format(result.scores.neu) }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-[#a5b4fc] text-sm">Positive:</span>
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="w-24 h-2 bg-[#1e293b] rounded-full overflow-hidden">
+                                                        <div class="h-full bg-gradient-to-r from-[#10b981] to-[#34d399]" 
+                                                             style="width: {{ (result.scores.pos * 100)|round(1) }}%"></div>
+                                                    </div>
+                                                    <span class="text-[#10b981] text-sm font-medium w-12 text-right">{{ "%.3f"|format(result.scores.pos) }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Compound Score Visualization -->
+                                    <div>
+                                        <p class="text-[#c7d2fe] text-xs font-medium mb-2">COMPOUND SCORE</p>
+                                        <div class="flex items-center justify-center">
+                                            <div class="relative w-32 h-32">
+                                                <!-- Circular Progress -->
+                                                <svg class="transform -rotate-90 w-32 h-32">
+                                                    <circle cx="64" cy="64" r="56" stroke="#1e293b" stroke-width="12" fill="none"></circle>
+                                                    {% if result.sentiment == 'Positive' %}
+                                                    <circle cx="64" cy="64" r="56" stroke="url(#gradient-green)" stroke-width="12" fill="none"
+                                                            stroke-dasharray="{{ (result.scores.compound + 1) * 351.86 }} 351.86"
+                                                            stroke-linecap="round"></circle>
+                                                    {% elif result.sentiment == 'Neutral' %}
+                                                    <circle cx="64" cy="64" r="56" stroke="url(#gradient-yellow)" stroke-width="12" fill="none"
+                                                            stroke-dasharray="{{ (result.scores.compound + 1) * 351.86 }} 351.86"
+                                                            stroke-linecap="round"></circle>
+                                                    {% else %}
+                                                    <circle cx="64" cy="64" r="56" stroke="url(#gradient-red)" stroke-width="12" fill="none"
+                                                            stroke-dasharray="{{ (result.scores.compound + 1) * 351.86 }} 351.86"
+                                                            stroke-linecap="round"></circle>
+                                                    {% endif %}
+                                                    
+                                                    <!-- Gradient Definitions -->
+                                                    <defs>
+                                                        <linearGradient id="gradient-green" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+                                                            <stop offset="100%" style="stop-color:#34d399;stop-opacity:1" />
+                                                        </linearGradient>
+                                                        <linearGradient id="gradient-yellow" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+                                                            <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1" />
+                                                        </linearGradient>
+                                                        <linearGradient id="gradient-red" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+                                                            <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+                                                        </linearGradient>
+                                                    </defs>
+                                                </svg>
+                                                <div class="absolute inset-0 flex items-center justify-center">
+                                                    <div class="text-center">
+                                                        <p class="text-2xl font-bold
+                                                            {% if result.sentiment == 'Positive' %}text-[#10b981]
+                                                            {% elif result.sentiment == 'Neutral' %}text-[#f59e0b]
+                                                            {% else %}text-[#ef4444]{% endif %}">
+                                                            {{ "%.3f"|format(result.scores.compound) }}
+                                                        </p>
+                                                        <p class="text-xs text-[#a5b4fc]">Compound</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    /* Custom scrollbar styling */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(30, 41, 59, 0.3);
+        border-radius: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, #7c3aed, #a855f7);
+        border-radius: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(to bottom, #6d28d9, #9333ea);
+    }
+</style>
+{% endblock %}
