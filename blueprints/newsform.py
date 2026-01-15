@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from functions.webscraping import content_collector
 
 newsformbp = Blueprint('newsform', __name__)
 
@@ -8,4 +9,5 @@ def news():
         source = request.form['news-source']
         segment = request.form['news-segment']
         print('HERE: ', source + segment)
+        content_collector(source, segment)
     return render_template('internal/newsform.html')

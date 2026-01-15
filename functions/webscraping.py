@@ -1,14 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import os
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 def content_collector(source, segment):
     data = []
 
-    url = f'https://{source}/{segment}'
+    url = f'https://{source}.com/{segment}'
 
     response = requests.get(url)
     content = response.text
@@ -18,16 +17,16 @@ def content_collector(source, segment):
     for paragraph in paragraphs:
         text = paragraph.get_text()
         if len(text.split()) > 5:
-            data.append()
+            data.append(text)
 
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    csv_file = f'/content/{source}_{segment}_{timestamp}.csv'
+    csv_file = f'content/{source}_{segment}_{timestamp}.csv'
 
     df = pd.DataFrame(data, columns=['NewsContent'])
     
-    csv_file = f'/content/{source}_{segment}_{timestamp}.csv'
+    csv_file = f'content/{source}_{segment}_{timestamp}.csv'
     df.to_csv(csv_file, index=False, encoding='utf-8-sig')
     
     return df
